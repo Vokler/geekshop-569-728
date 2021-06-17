@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -22,6 +22,11 @@ def index(request):
 class UserListView(ListView):
     model = User
     template_name = 'admins/admin-users-read.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(UserListView, self).get_context_data(**kwargs)
+        context['title'] = 'GeekShop - Админ | Пользователи'
+        return context
 
 
 # @user_passes_test(lambda u: u.is_superuser)
